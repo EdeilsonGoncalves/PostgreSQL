@@ -85,6 +85,132 @@ where (state = 'SC' or state = 'MS') and birth_date < '1994-06-20'
 
 -- order by: serve para ordenar a seleção de acordo com uma regra definida pelo usuário
 
+-- Ordenação por valores numéricos
+-- Liste produtos da tabela products na ordem crescente com base no preço
+
+select *
+from  sales.products
+order by price desc
+
+-- desc significa decrescente
+
+-- Ordenação de texto
+-- Liste os estados distintos da tabela customers na ordem crescente
+
+select distinct state 
+from sales.customers
+order by state
+
+-- Resumo:
+-- 1 Comando utilizado para ordenar a seleção de acordo com uma regra definida
+-- 2 Por padrão o comando ordena na ordem crescente. Para mudar a ordem 
+-- decrescente usar  o comando DESC
+-- 3 No caso de strings a ordenação será a ordem alfabética
+
+-----------------------------------------------------------------------------------
+
+-- limit: serve para limitar o n° de linhas da consulta
+-- Muito utilizado na etapa de exploração dos dados
+
+-- Seleção das N primeiras linhas usando LIMIT
+-- Liste as 10 primeiras linhas da tabela funnel
+
+select *
+from sales.funnel
+limit 10
+
+-- Seleção das N primeiras linhas usando LIMIT e ORDER BY
+-- Liste os 10 produtos mais caros da tabela products
+
+select *
+from sales.products
+order by price desc
+limit 10
+
+-- Resumo:
+-- 1 comando utilizado para limitar o n° de linhas da consulta
+-- 2 muito utilizado na etapa de exploração de dados 
+-- 3 muito utilizado em conjunto com o comando ORDER BY quando o que importa são
+-- os TOP N. EX: "N pagamentos mais recentes", "N produtos mais caros"
+
+------------------------------------------------------------------------------------
+
+-- EXERCÍCIOS ######################################################################
+
+-- (Exercício 1) Selecione os nomes de cidade distintas que existem no estado de
+-- Minas Gerais em ordem alfabética (dados da tabela sales.customers)
+select  distinct city
+from sales.customers
+where state = 'MG'
+order by city
+
+
+-- (Exercício 2) Selecione o visit_id das 10 compras mais recentes efetuadas
+-- (dados da tabela sales.funnel)
+select visit_id
+from sales.funnel
+where paid_date is not null
+order by paid_date desc
+limit 10
+
+-- (Exercício 3) Selecione todos os dados dos 10 clientes com maior score nascidos
+-- após 01/01/2000 (dados da tabela sales.customers)
+select *
+from sales.customers
+where birth_date >= '2000-01-01'
+order by score desc
+limit 10
+
+--------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
