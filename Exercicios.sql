@@ -163,6 +163,209 @@ limit 10
 
 --------------------------------------------------------------------------------------
 
+-- Funções de agregação
+-- Serve para executar operações aritméticas nos registros de uma coluna
+
+-- Tipos:
+-- COUNT()
+-- SUM()
+-- MIN()
+-- MAX()
+-- AVG()
+
+-- Exemplos:
+
+-- COUNT()
+
+-- Exemplo 1 - Contagem de todas as linhas de uma tabela
+-- Conte todas as visitas realizadas ao site da empresa fictícia
+
+select count(*)
+from sales.funnel
+
+-- Exemplo 2 - Contagem das linhas de uma coluna
+-- Conte todos os pagamentos registrados na tabela sales.funnel
+
+select count(paid_date)
+from sales.funnel
+
+-- Exemplo 3 - Contagem distinta de uma coluna
+-- Conte todos os produtos distintos visitados em jan/21
+
+select count(distinct product_id)
+from sales.funnel
+where visit_page_date between '2021-01-01' and '2021-01-31'
+
+-- Exemplo 4 - Calcule o preço mínimo, máximo e médio dos produtos da tabela products
+
+select min(price), max(price), avg(price)
+from sales.products
+
+-- Exemplo 5 - Informe qual é o veículo mais caro da tabela products
+
+select *
+from sales.products
+where price = (select max(price) from sales.products)
+
+-- Resumo de funções agregadas:
+-- Servem para executar operações aritméticas nos registros de uma coluna 
+-- Funções agregadas não computam células vazias (NULL) como zero
+-- Na função COUNT() pode-se utilizar o asterisco (*) para contar os registros
+-- COUNT(DISTINCT) irá contar apenas os valores exclusivos
+
+--------------------------------------------------------------------------------------
+
+-- GROUP BY: serve para agrupar registros semelhantes de uma coluna 
+-- Normalmente utilizado em conjunto com as funções de agregação
+
+-- Exemplo 1 - contagem agrupada de uma coluna
+-- Calcule o nº de clientes da tabela customers por estado
+
+select state, count(*) as contagem
+from sales.customers
+group by state
+order by contagem desc
+
+-- Exemplo 2 - Contagem agrupada de várias colunas 
+-- Calcule o nº de clientes por estado e status profissional
+
+select state, professional_status, count(*) as contagem
+from sales.customers
+group by state, professional_status
+order by state, contagem desc
+
+-- Exemplo 3 - Seleção de valores distintos 
+-- Selecione os estados distintos na tabela customers utilizando o group by
+
+select distinct state
+from sales.customers
+
+select state 
+from sales.customers
+group by state
+
+-- Resumo:
+-- Serve para agrupar registros semelhantes de uma coluna,
+-- Normalmente utilizado em conjunto com as funções de agregação
+-- Pode-se referenciar a coluna a ser agrupada pela sua posição ordinal
+-- ex: GROUP BY 1,2,3 irá agrupar pelas 3 primeiras colunas da tabela 
+-- O group by sozinho funciona como um DISTINCT, eliminando linhas duplicadas
+
+-------------------------------------------------------------------------------------
+
+-- HAVING
+-- Serve para filtrar linhas da seleção por uma coluna agrupada
+-- Exemplo 1 - Seleção de filtros no HAVING
+-- Calcule o nº de clientes por estado filtrando apenas estados acima de 100 clientes
+
+select
+	state,
+	count(*)
+from sales.customers
+group by state
+having count(*) > 100
+
+-- Resumo:
+-- Tem a mesma função do WHERE mas pode ser usado para filtrar os resultados
+-- das funções agregadas enquanto o WHERE possui essa limitação
+-- A função HAVING também pode filtrar colunas não agregadas 
+
+-- EXERCÍCIOS ########################################################################
+
+-- (Exercício 1) Conte quantos clientes da tabela sales.customers tem menos de 30 anos
+
+
+
+-- (Exercício 2) Informe a idade do cliente mais velho e mais novo da tabela sales.customers
+
+
+
+-- (Exercício 3) Selecione todas as informações do cliente mais rico da tabela sales.customers
+-- (possívelmente a resposta contém mais de um cliente)
+
+
+
+-- (Exercício 4) Conte quantos veículos de cada marca tem registrado na tabela sales.products
+-- Ordene o resultado pelo nome da marca
+
+
+
+-- (Exercício 5) Conte quantos veículos existem registrados na tabela sales.products
+-- por marca e ano do modelo. Ordene pela nome da marca e pelo ano do veículo
+
+
+
+-- (Exercício 6) Conte quantos veículos de cada marca tem registrado na tabela sales.products
+-- e mostre apenas as marcas que contém mais de 10 veículos registrados
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--
+
 
 
 
